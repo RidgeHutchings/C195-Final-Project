@@ -10,19 +10,25 @@ import javafx.stage.Stage;
 import utils.DBConnection;
 import utils.DBQuery;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("LoginScreen.fxml"));
-        primaryStage.setTitle("Appointment Scheduler");
+
+        //Gets the user's default language
+        ResourceBundle rb  = ResourceBundle.getBundle("sample/language", Locale.getDefault());
+
+        primaryStage.setTitle(rb.getString("title"));
         Scene scene = new Scene(root);
         scene.getStylesheets().add("Style.css");
 
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
 
     public static void main(String[] args) {
 

@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -15,6 +16,8 @@ import utils.DBQuery;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 
 public class LoginScreenController {
@@ -24,14 +27,32 @@ public class LoginScreenController {
     PasswordField passwordTextBox;
     @FXML
     Label loginInfoLabel;
+    @FXML Label usernameLabel;
+    @FXML Label passwordLabel;
+    @FXML Button loginSubmitButton;
+    @FXML
+    Button cancelButton;
 
 
+    ResourceBundle rb  = ResourceBundle.getBundle("sample/language", Locale.getDefault());
+
+    //Set GUI to language
+    @FXML
+    private void initialize(){
+        passwordLabel.setText(rb.getString("password"));
+        passwordTextBox.setPromptText(rb.getString("password"));
+        usernameLabel.setText(rb.getString("username"));
+        usernameTextBox.setPromptText(rb.getString("username"));
+        loginSubmitButton.setText(rb.getString("submit"));
+        cancelButton.setText(rb.getString("cancel"));
+
+    }
     //this method is called when the user hits the submit button on the login screen. It parses the data from the username
     //and password fields and checks them against the database to see if the user exists.
     public void attemptLogin(ActionEvent event) throws IOException, SQLException {
         //First we should check to make sure the boxes are not empty.
         if(usernameTextBox.getText().length()==0 || passwordTextBox.getText().length()==0) {
-            loginInfoLabel.setText("Username or Password cannot be left blank. \nPlease check your entry and try again.");
+            loginInfoLabel.setText(rb.getString("blankError"));
         }else{
             String username = usernameTextBox.getText();
             String password = passwordTextBox.getText();
@@ -48,13 +69,18 @@ public class LoginScreenController {
                stage.setScene(scene);
            }
            else{
-               loginInfoLabel.setText("Invalid username or password");
+               loginInfoLabel.setText(rb.getString("invalidLoginError"));
            }
 
 
 
         }
 
-
     }
-}
+
+    //closes the program if the user hits cancel
+    public void cancelButtonPressed(ActionEvent event) throws IOException {
+        System.exit(0);
+    }
+    }
+
