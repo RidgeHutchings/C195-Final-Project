@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import utils.DBConnection;
 import utils.DBQuery;
 
+import java.time.ZoneId;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -41,6 +42,8 @@ public class Main extends Application {
         //Get the Statement reference
         Statement statement = DBQuery.getStatement();
 
+        //Get the user's ZoneID(time zone)
+        ZoneId.systemDefault();
         //launches GUI
         launch(args);
 

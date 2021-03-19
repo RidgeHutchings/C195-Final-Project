@@ -16,6 +16,10 @@ import utils.DBQuery;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -32,7 +36,8 @@ public class LoginScreenController {
     @FXML Button loginSubmitButton;
     @FXML
     Button cancelButton;
-
+    @FXML Label currentLocationLabel;
+    @FXML Label locationLabel;
 
     ResourceBundle rb  = ResourceBundle.getBundle("sample/language", Locale.getDefault());
 
@@ -45,6 +50,8 @@ public class LoginScreenController {
         usernameTextBox.setPromptText(rb.getString("username"));
         loginSubmitButton.setText(rb.getString("submit"));
         cancelButton.setText(rb.getString("cancel"));
+        locationLabel.setText(rb.getString("timeZone"));
+        currentLocationLabel.setText(String.valueOf(ZoneId.systemDefault()));
 
     }
     //this method is called when the user hits the submit button on the login screen. It parses the data from the username

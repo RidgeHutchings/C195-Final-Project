@@ -18,6 +18,8 @@
             <Button fx:id="cancelButton" layoutX="156.0" layoutY="223.0" mnemonicParsing="false" onAction="#cancelButtonPressed" text="Cancel" />
             <Button fx:id="loginSubmitButton" layoutX="284.0" layoutY="223.0" mnemonicParsing="false" onAction="#attemptLogin" text="Submit" />
              <Label fx:id="loginInfoLabel" layoutX="39.0" layoutY="169.0" text=" " textFill="WHITE" />
+            <Label fx:id="locationLabel" layoutX="39.0" layoutY="178.0" text="Time zone" />
+            <Label fx:id="currentLocationLabel" layoutX="156.0" layoutY="176.0" prefHeight="21.0" prefWidth="211.0" />
          </children>
       </AnchorPane>
    </center>
