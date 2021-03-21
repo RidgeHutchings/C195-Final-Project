@@ -4,7 +4,6 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MainScreenController">
    <children>
       <TableView id="AppointmentTable" fx:id="appointmentTable" layoutY="317.0" prefHeight="382.0" prefWidth="1920.0" AnchorPane.bottomAnchor="381.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="317.0">
@@ -16,12 +15,19 @@
             <TableColumn fx:id="appointmentTypeCol" prefWidth="95.0" text="Type" />
             <TableColumn fx:id="appointmentStartCol" prefWidth="66.0" text="Start" />
             <TableColumn fx:id="appointmentEndCol" prefWidth="66.0" text="End" />
+            <TableColumn fx:id="appointmentCreateDateCol" prefWidth="75.0" text="Create Date" />
+            <TableColumn fx:id="appointmentCreatedByCol" prefWidth="75.0" text="Created By" />
+            <TableColumn fx:id="appointmentLastUpdateCol" prefWidth="75.0" text="Last Update" />
+            <TableColumn fx:id="appointmentLastUpdatedByCol" prefWidth="75.0" text="Last Updated By" />
+            <TableColumn fx:id="appointmentCustomerIDCol" prefWidth="75.0" text="Customer ID" />
+            <TableColumn fx:id="appointmentUserIDCol" prefWidth="75.0" text="User ID" />
+            <TableColumn fx:id="appointmentContactIDCol" prefWidth="75.0" text="Contact ID" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <TableView fx:id="customerTable" prefHeight="318.0" prefWidth="1920.0" AnchorPane.bottomAnchor="762.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <TableView fx:id="customerTable" onMouseClicked="#populateAppointmentTable" prefHeight="318.0" prefWidth="1920.0" AnchorPane.bottomAnchor="762.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columns>
           <TableColumn fx:id="customerIDCol" prefWidth="75.0" text="Customer ID" />
           <TableColumn fx:id="customerNameCol" prefWidth="319.0" text="Customer Name" />
