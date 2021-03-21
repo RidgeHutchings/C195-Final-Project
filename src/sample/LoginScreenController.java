@@ -71,7 +71,7 @@ public class LoginScreenController {
             ResultSet results = statement.executeQuery("SELECT User_Name, Password FROM users WHERE User_Name='"+username + "' AND Password='"+password +"'");
            if( results.next()){
                Parent root = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
-               Scene scene = new Scene(root,400,400);
+               Scene scene = new Scene(root,1920,1080);
                Stage stage = (Stage)usernameTextBox.getScene().getWindow();
                stage.setScene(scene);
            }
