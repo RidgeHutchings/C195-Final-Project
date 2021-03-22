@@ -6,10 +6,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import utils.DBQuery;
 
 import java.io.IOException;
@@ -41,6 +47,8 @@ public class MainScreenController {
     TableColumn<Customer,Integer> customerDivisionIDCol;
     @FXML
     TableColumn<Customer,String> customerAddressCol;
+    @FXML
+    TableColumn<Customer,String> customerCountryCol;
     //appointment table FXML below
     @FXML
     TableView appointmentTable;
@@ -72,11 +80,13 @@ public class MainScreenController {
     TableColumn<Appointments,Integer>appointmentUserIDCol;
     @FXML
     TableColumn<Appointments,Integer>appointmentContactIDCol;
+    @FXML
+    Button addCustomerButton;
 
 
     @FXML
     private void initialize() throws SQLException {
-
+        appointmentTable.setPlaceholder(new Label("Currently there are no appointments for this user"));
         //Get the Statement reference
         Statement statement = DBQuery.getStatement();
 
@@ -94,6 +104,11 @@ public class MainScreenController {
                 results.getString("Last_Updated_By"), results.getInt("Division_ID"));
             Customer.getCustomers().add(cust);
         }
+        for (int i=0;i<Customer.getCustomers().size();i++){
+            Customer cust = (Customer) Customer.getCustomers().get(i);
+            cust.setDivision(cust.getDivisionID());
+            cust.setCountry(cust.getCountryID());
+        }
         customerTable.setItems(Customer.getCustomers());
         customerIDCol.setCellValueFactory(new PropertyValueFactory<>("ID"));
         customerNameCol.setCellValueFactory(new PropertyValueFactory<>("Name"));
@@ -104,7 +119,8 @@ public class MainScreenController {
         customerCreatedByCol.setCellValueFactory(new PropertyValueFactory<>("CreatedBy"));
         customerLastUpdateCol.setCellValueFactory(new PropertyValueFactory<>("LastUpdate"));
         customerLastUpdatedByCol.setCellValueFactory(new PropertyValueFactory<>("LastUpdatedBy"));
-        customerDivisionIDCol.setCellValueFactory(new PropertyValueFactory<>("DivisionID"));
+        customerDivisionIDCol.setCellValueFactory(new PropertyValueFactory<>("Division"));
+        customerCountryCol.setCellValueFactory(new PropertyValueFactory<>("Country"));
 
 
 
@@ -151,5 +167,12 @@ public class MainScreenController {
             appointmentUserIDCol.setCellValueFactory(new PropertyValueFactory<>("UserID"));
             appointmentContactIDCol.setCellValueFactory(new PropertyValueFactory<>("ContactID"));
         }
+    }
+    //this method opens up a new window that allows a customer to be added
+    public void addCustomer(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("AddCustomer.fxml"));
+        Scene scene = new Scene(root,1920,1080);
+        Stage stage = (Stage)addCustomerButton.getScene().getWindow();
+        stage.setScene(scene);
     }
 }
