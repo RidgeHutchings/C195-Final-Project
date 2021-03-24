@@ -1,24 +1,33 @@
 package sample;
 
 import com.mysql.jdbc.Statement;
+import com.sun.javafx.scene.control.IntegerField;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
+import javafx.util.converter.DateStringConverter;
+import javafx.util.converter.DateTimeStringConverter;
+import javafx.util.converter.IntegerStringConverter;
+import javafx.util.converter.NumberStringConverter;
 import utils.DBQuery;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -36,7 +45,7 @@ public class MainScreenController {
     @FXML
     TableColumn<Customer,String> customerPhoneCol;
     @FXML
-    TableColumn<Customer,Integer> customerCreateDateCol;
+    TableColumn<Customer, Date>customerCreateDateCol;
     @FXML
     TableColumn<Customer,String> customerCreatedByCol;
     @FXML
@@ -44,7 +53,7 @@ public class MainScreenController {
     @FXML
     TableColumn<Customer,String> customerLastUpdatedByCol;
     @FXML
-    TableColumn<Customer,Integer> customerDivisionIDCol;
+    TableColumn<Customer,String> customerDivisionIDCol;
     @FXML
     TableColumn<Customer,String> customerAddressCol;
     @FXML
@@ -83,10 +92,25 @@ public class MainScreenController {
     @FXML
     Button addCustomerButton;
 
+    String[] listOfStates ={ "Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","District of Columbia","Federated States of Micronesia",
+            "Florida","Georgia","Guam","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan",
+            "Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota",
+            "Ohio","Oklahoma","Oregon","Palau","Pennsylvania","Puerto Rico","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia",
+            "Washington","West Virginia","Wisconsin","Wyoming"};
 
+    String[] listOfUkDivisions = {"England","Wales","Scotland","Northern Ireland"};
+    String[] listOfCanadaDivisions = {"Northwest Territories" , "Alberta","British Columbia" ,"Manitoba" ,"New Brunswick" ,"Nova Scotia" ,
+            "Prince Edward Island" ,
+            "Ontario" ,
+            "Québec" ,
+            "Saskatchewan" ,
+            "Nunavut" ,
+            "Yukon" ,
+            "Newfoundland and Labrador"};
     @FXML
     private void initialize() throws SQLException {
         appointmentTable.setPlaceholder(new Label("Currently there are no appointments for this user"));
+
         //Get the Statement reference
         Statement statement = DBQuery.getStatement();
 
@@ -100,7 +124,7 @@ public class MainScreenController {
             System.out.println("The result is true!");
         Customer cust = new Customer(results.getInt("Customer_ID"),results.getString("Customer_Name"),
                 results.getString("Address"),results.getString("Postal_Code"),results.getString("Phone"),
-                results.getString("Create_Date"),results.getString("Created_By"), results.getInt("Last_Update"),
+                results.getDate("Create_Date"),results.getString("Created_By"), results.getInt("Last_Update"),
                 results.getString("Last_Updated_By"), results.getInt("Division_ID"));
             Customer.getCustomers().add(cust);
         }
@@ -122,6 +146,29 @@ public class MainScreenController {
         customerDivisionIDCol.setCellValueFactory(new PropertyValueFactory<>("Division"));
         customerCountryCol.setCellValueFactory(new PropertyValueFactory<>("Country"));
 
+        //allows the table to be editable
+        customerTable.setEditable(true);
+        customerIDCol.setEditable(false);
+        customerAddressCol.setEditable(true);
+        customerPostalCodeCol.setEditable(true);
+        customerPhoneCol.setEditable(true);
+        customerCreateDateCol.setEditable(true);
+        customerCreatedByCol.setEditable(true);
+        customerLastUpdateCol.setEditable(true);
+        customerDivisionIDCol.setEditable(true);
+        customerCountryCol.setEditable(true);
+        customerNameCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        customerAddressCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        customerPostalCodeCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        customerPhoneCol.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        customerCreateDateCol.setCellFactory(TextFieldTableCell.forTableColumn(new DateStringConverter()));
+        customerCreatedByCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        customerLastUpdateCol.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        customerLastUpdatedByCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        //TODO update the line below to a combo box, and then have it only populate divisions that are within that country. 
+        //customerDivisionIDCol.setCellFactory(ComboBoxTableCell.forTableColumn(listOfDivisions));
+        customerCountryCol.setCellFactory(ComboBoxTableCell.forTableColumn("U.S","UK","Canada"));
 
 
 
@@ -175,4 +222,119 @@ public class MainScreenController {
         Stage stage = (Stage)addCustomerButton.getScene().getWindow();
         stage.setScene(scene);
     }
+    //this method puts the customer table into edit mode so the user can edit customer details
+    public void editCustomerFirstName(TableColumn.CellEditEvent editedCell) throws IOException{
+        Customer selectedCustomer = customerTable.getSelectionModel().getSelectedItem();
+        selectedCustomer.setName(editedCell.getNewValue().toString());
+
+    }
+    //this method puts the customer table into edit mode so the user can edit customer details
+    public void editCustomerAddress(TableColumn.CellEditEvent editedCell) throws IOException{
+        Customer selectedCustomer = customerTable.getSelectionModel().getSelectedItem();
+        selectedCustomer.setAddress(editedCell.getNewValue().toString());
+
+    }
+    //this method puts the customer table into edit mode so the user can edit customer details
+    public void editCustomerPostalCode(TableColumn.CellEditEvent editedCell) throws IOException{
+        Customer selectedCustomer = customerTable.getSelectionModel().getSelectedItem();
+        selectedCustomer.setPostalCode(editedCell.getNewValue().toString());
+
+    }
+    //this method puts the customer table into edit mode so the user can edit customer details
+    public void editCustomerPhoneNumber(TableColumn.CellEditEvent editedCell) throws IOException{
+        Customer selectedCustomer = customerTable.getSelectionModel().getSelectedItem();
+        selectedCustomer.setPhoneNumber(editedCell.getNewValue().toString());
+
+    }
+    //this method puts the customer table into edit mode so the user can edit customer details
+    public void editCustomerCreateDate(TableColumn.CellEditEvent editedCell) throws IOException{
+        Customer selectedCustomer = customerTable.getSelectionModel().getSelectedItem();
+        selectedCustomer.setCreateDate((Date) editedCell.getNewValue());
+
+    }
+    //this method puts the customer table into edit mode so the user can edit customer details
+    public void editCustomerCreatedBy(TableColumn.CellEditEvent editedCell) throws IOException{
+        Customer selectedCustomer = customerTable.getSelectionModel().getSelectedItem();
+        selectedCustomer.setCreatedBy(editedCell.getNewValue().toString());
+
+    }
+    //this method puts the customer table into edit mode so the user can edit customer details
+    public void editCustomerLastUpdatedBy(TableColumn.CellEditEvent editedCell) throws IOException{
+        Customer selectedCustomer = customerTable.getSelectionModel().getSelectedItem();
+        selectedCustomer.setLastUpdatedBy(editedCell.getNewValue().toString());
+
+    }
+    //this method puts the customer table into edit mode so the user can edit customer details
+    public void editCustomerLastUpdate(TableColumn.CellEditEvent editedCell) throws IOException{
+        Customer selectedCustomer = customerTable.getSelectionModel().getSelectedItem();
+        selectedCustomer.setLastUpdate((Integer) editedCell.getNewValue());
+
+    }
+    //this method puts the customer table into edit mode so the user can edit customer details
+    public void editCustomerDivision(TableColumn.CellEditEvent editedCell) throws IOException{
+        Customer selectedCustomer = customerTable.getSelectionModel().getSelectedItem();
+        selectedCustomer.setDivision(editedCell.getNewValue().toString());
+
+    }
+    //this method puts the customer table into edit mode so the user can edit customer details
+    public void editCustomerCountry(TableColumn.CellEditEvent editedCell) throws IOException{
+        Customer selectedCustomer = customerTable.getSelectionModel().getSelectedItem();
+        selectedCustomer.setCountry(editedCell.getNewValue().toString());
+        if(selectedCustomer.getCountry()=="U.S"){
+
+
+            customerDivisionIDCol.setCellFactory(ComboBoxTableCell.forTableColumn(listOfStates));
+        }
+        if(selectedCustomer.getCountry()=="UK"){
+
+
+            customerDivisionIDCol.setCellFactory(ComboBoxTableCell.forTableColumn(listOfUkDivisions));
+        }
+        if(selectedCustomer.getCountry()=="Canada"){
+
+
+            customerDivisionIDCol.setCellFactory(ComboBoxTableCell.forTableColumn(listOfCanadaDivisions));
+        }
+
+    }
+    //this method deletes the selected customer
+    public void deleteCustomer(ActionEvent event) throws SQLException {
+
+        //Get the Statement reference
+        Statement statement = DBQuery.getStatement();
+
+        //first we need to get the list of all possible appointments.
+       ObservableList allAppointments = Appointments.getAppointments();
+        //Next we get the customer ID of the selected customer.
+        int deletedCustomerID = customerTable.getSelectionModel().getSelectedItem().getID();
+        //now we delete the appointments that belong to the customer, and then delete the customer.
+        for(int i = 0; i<allAppointments.size();i++){
+            Appointments potentialAppointment = (Appointments) allAppointments.get(i);
+            if(potentialAppointment.getCustomerID() == deletedCustomerID){
+                allAppointments.remove(i);
+                statement.execute("DELETE  FROM appointments WHERE Customer_ID='"+deletedCustomerID+"'");
+            }
+        }
+        ObservableList allCustomers = Customer.getCustomers();
+        for(int i =0; i<Customer.getCustomers().size();i++){
+            Customer potentialCustomer = (Customer) allCustomers.get(i);
+            if(potentialCustomer.getID() == deletedCustomerID){
+                allCustomers.remove(i);
+                statement.execute("DELETE  FROM customers WHERE Customer_ID='"+deletedCustomerID+"'");
+            }
+        }
+
+
+
+
+
+
+    }
+
+    //TODO savebutton method. Commits the edits the user has made to various customers to the database.
+
+
+
+
+
 }

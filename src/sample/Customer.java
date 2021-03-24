@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import utils.DBQuery;
 
+import java.util.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -17,7 +18,7 @@ public class Customer {
     private String address;
     private String postalCode;
     private String phoneNumber;
-    private String createDate;
+    private Date createDate;
     private String createdBy;
     private int lastUpdate;
     private String lastUpdatedBy;
@@ -28,7 +29,7 @@ public class Customer {
 
     private static ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
 
-    Customer(int id, String name, String address, String postalCode, String phoneNumber, String createDate
+    Customer(int id, String name, String address, String postalCode, String phoneNumber, Date createDate
             , String createdBy, int lastUpdate, String lastUpdatedBy, int divisionID) throws SQLException {
 
         this.id = id;
@@ -83,11 +84,11 @@ public class Customer {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getCreateDate() {
+    public Date getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(String createDate) {
+    public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 
@@ -165,5 +166,13 @@ public class Customer {
         ResultSet resultSet = statement.executeQuery("SELECT COUNTRY_ID FROM first_level_divisions WHERE Division_ID='"+divisionID+"'");
         resultSet.next();
         return resultSet.getInt("Country_ID");
+    }
+
+    public void setDivision(String toString) {
+        this.division = toString;
+    }
+
+    public void setCountry(String toString) {
+        this.country = toString;
     }
 }
