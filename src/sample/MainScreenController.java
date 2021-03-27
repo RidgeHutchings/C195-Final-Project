@@ -166,9 +166,12 @@ public class MainScreenController {
         customerCreatedByCol.setCellFactory(TextFieldTableCell.forTableColumn());
         customerLastUpdateCol.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
         customerLastUpdatedByCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        //TODO update the line below to a combo box, and then have it only populate divisions that are within that country. 
-        //customerDivisionIDCol.setCellFactory(ComboBoxTableCell.forTableColumn(listOfDivisions));
+
         customerCountryCol.setCellFactory(ComboBoxTableCell.forTableColumn("U.S","UK","Canada"));
+        //TODO update the line below to a combo box, and then have it only populate divisions that are within that country.
+       // customerDivisionIDCol.setCellValueFactory(ComboBoxTableCell.forTableColumn());
+
+
 
 
 
@@ -214,6 +217,9 @@ public class MainScreenController {
             appointmentUserIDCol.setCellValueFactory(new PropertyValueFactory<>("UserID"));
             appointmentContactIDCol.setCellValueFactory(new PropertyValueFactory<>("ContactID"));
         }
+        if(selectedCustomer.getCountry().equals("U.S")){ customerDivisionIDCol.setCellFactory(ComboBoxTableCell.forTableColumn(listOfStates));}
+        if(selectedCustomer.getCountry().equals("UK")){ customerDivisionIDCol.setCellFactory(ComboBoxTableCell.forTableColumn(listOfUkDivisions));}
+        if(selectedCustomer.getCountry().equals("Canada")){ customerDivisionIDCol.setCellFactory(ComboBoxTableCell.forTableColumn(listOfCanadaDivisions));}
     }
     //this method opens up a new window that allows a customer to be added
     public void addCustomer(ActionEvent event) throws IOException {
@@ -276,27 +282,38 @@ public class MainScreenController {
         selectedCustomer.setDivision(editedCell.getNewValue().toString());
 
     }
+
+
     //this method puts the customer table into edit mode so the user can edit customer details
     public void editCustomerCountry(TableColumn.CellEditEvent editedCell) throws IOException{
         Customer selectedCustomer = customerTable.getSelectionModel().getSelectedItem();
         selectedCustomer.setCountry(editedCell.getNewValue().toString());
-        if(selectedCustomer.getCountry()=="U.S"){
 
-
+        String currentCountry = selectedCustomer.getCountry();
+        if(currentCountry=="U.S"){
+            System.out.println("the customer is in the US!");
+            selectedCustomer.setDivision("");
             customerDivisionIDCol.setCellFactory(ComboBoxTableCell.forTableColumn(listOfStates));
         }
-        if(selectedCustomer.getCountry()=="UK"){
+        else if(currentCountry=="UK"){
 
-
+            selectedCustomer.setDivision("");
             customerDivisionIDCol.setCellFactory(ComboBoxTableCell.forTableColumn(listOfUkDivisions));
         }
-        if(selectedCustomer.getCountry()=="Canada"){
+        else if(currentCountry=="Canada"){
 
-
+            selectedCustomer.setDivision("");
             customerDivisionIDCol.setCellFactory(ComboBoxTableCell.forTableColumn(listOfCanadaDivisions));
+        }
+        else{
+            System.out.println("Could not determine customer's country");
         }
 
     }
+
+
+
+
     //this method deletes the selected customer
     public void deleteCustomer(ActionEvent event) throws SQLException {
 
@@ -330,6 +347,8 @@ public class MainScreenController {
 
 
     }
+
+
 
     //TODO savebutton method. Commits the edits the user has made to various customers to the database.
 

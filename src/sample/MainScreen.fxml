@@ -29,7 +29,7 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <TableView fx:id="customerTable" onMouseClicked="#populateAppointmentTable" prefHeight="318.0" prefWidth="1920.0" AnchorPane.bottomAnchor="762.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <TableView fx:id="customerTable" editable="true" onMouseClicked="#populateAppointmentTable" prefHeight="318.0" prefWidth="1920.0" AnchorPane.bottomAnchor="762.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columns>
           <TableColumn fx:id="customerIDCol" prefWidth="75.0" text="Customer ID" />
           <TableColumn fx:id="customerNameCol" onEditCommit="#editCustomerFirstName" prefWidth="319.0" text="Customer Name" />
@@ -40,8 +40,8 @@
             <TableColumn fx:id="customerCreatedByCol" onEditCommit="#editCustomerCreatedBy" prefWidth="207.0" text="Created By" />
             <TableColumn fx:id="customerLastUpdateCol" minWidth="0.0" onEditCommit="#editCustomerLastUpdate" prefWidth="202.0" text="Last Update" />
             <TableColumn fx:id="customerLastUpdatedByCol" onEditCommit="#editCustomerLastUpdatedBy" prefWidth="216.0" text="Last Updated By" />
+            <TableColumn fx:id="customerCountryCol" editable="false" onEditCommit="#editCustomerCountry" prefWidth="75.0" text="Country" />
             <TableColumn fx:id="customerDivisionIDCol" onEditCommit="#editCustomerDivision" prefWidth="48.0" text="Division" />
-            <TableColumn fx:id="customerCountryCol" onEditCommit="#editCustomerCountry" prefWidth="75.0" text="Country" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
