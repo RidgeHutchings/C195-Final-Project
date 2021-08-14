@@ -3,18 +3,23 @@ package sample;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import utils.DBConnection;
 import utils.DBQuery;
 
+import java.io.IOException;
 import java.time.ZoneId;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class Main extends Application {
+    @FXML
+    Button addAppointmentButton;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -50,4 +55,5 @@ public class Main extends Application {
         //Closes connection with database
         DBConnection.closeConnection();
     }
+
 }

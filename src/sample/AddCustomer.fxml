@@ -1,14 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="sample.AddCustomer"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="430.0" prefWidth="385.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.AddCustomerController">
+   <children>
+      <VBox layoutX="158.0" layoutY="16.0" prefHeight="416.0" prefWidth="166.0" spacing="20.0">
+         <children>
+            <TextField fx:id="customerName" />
+            <TextField fx:id="customerAddress" />
+            <TextField fx:id="postalCode" />
+            <TextField fx:id="phoneNumber" />
+            <ComboBox fx:id="country" onAction="#populateDivisions" prefHeight="27.0" prefWidth="174.0" />
+            <ComboBox fx:id="division" prefHeight="27.0" prefWidth="175.0" />
+         </children>
+      </VBox>
+      <VBox layoutX="32.0" layoutY="20.0" prefHeight="303.0" prefWidth="209.0" spacing="30.0" AnchorPane.bottomAnchor="68.0" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="241.0" AnchorPane.topAnchor="20.0">
+         <children>
+            <Label text="Customer Name" />
+            <Label text="Address" />
+            <Label text="Postal Code" />
+            <Label text="Phone Number" />
+            <Label text="Country" />
+            <Label text="State/Province" />
+         </children>
+      </VBox>
+      <HBox alignment="CENTER" layoutX="-47.0" layoutY="257.0" prefHeight="159.0" prefWidth="411.0" spacing="100.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="-47.0" AnchorPane.rightAnchor="-10.0" AnchorPane.topAnchor="257.0">
+         <children>
+            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButtonPressed" prefHeight="30.0" prefWidth="90.0" text="Cancel" />
+            <Button fx:id="addButton" mnemonicParsing="false" onAction="#addCustomerButtonPressed" prefHeight="32.0" prefWidth="90.0" text="Add" />
+         </children>
+      </HBox>
+   </children>
 </AnchorPane>

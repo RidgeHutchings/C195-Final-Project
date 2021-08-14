@@ -24,7 +24,7 @@ public class Appointments {
     Appointments(int appointmentID,String title,String description,String location, String type, String start,
                  String end,String createDate,String createdBy,String lastUpdate,String lastUpdatedBy,int customerID,int userID,int contactID)
     {
-
+        this.appointmentID = appointmentID;
         this.title = title;
         this.description = description;
         this.location = location;

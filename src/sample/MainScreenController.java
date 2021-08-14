@@ -35,6 +35,8 @@ import java.util.List;
 public class MainScreenController {
     @FXML
     TableView<Customer> customerTable;
+    @FXML
+    Button addAppointmentButton;
 
     @FXML
     TableColumn<Customer,Integer> customerIDCol;
@@ -117,6 +119,8 @@ public class MainScreenController {
         //pulls in any existing customers and displays them into the first table
         ResultSet results = statement.executeQuery("SELECT * FROM customers");
 
+        //clear the list of Customer's to avoid duplicates
+        Customer.getCustomers().clear();
         //parse the data returned from the result set into a series of lists
 
         while(results.next())
@@ -224,9 +228,13 @@ public class MainScreenController {
     //this method opens up a new window that allows a customer to be added
     public void addCustomer(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("AddCustomer.fxml"));
-        Scene scene = new Scene(root,1920,1080);
+        Scene scene = new Scene(root,400,400);
+
         Stage stage = (Stage)addCustomerButton.getScene().getWindow();
+        stage.setTitle("Add Customer");
+        stage.setResizable(false);
         stage.setScene(scene);
+
     }
     //this method puts the customer table into edit mode so the user can edit customer details
     public void editCustomerFirstName(TableColumn.CellEditEvent editedCell) throws IOException{
@@ -341,19 +349,18 @@ public class MainScreenController {
             }
         }
 
-
-
-
-
-
     }
 
+    @FXML
+    private void addAppointmentButtonPressed() throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("addAppointment.fxml"));
+        Scene scene = new Scene(root);
 
-
-    //TODO savebutton method. Commits the edits the user has made to various customers to the database.
-
-
-
+        Stage stage = (Stage)addAppointmentButton.getScene().getWindow();
+        stage.setTitle("Add an Appointment");
+        stage.setResizable(true);
+        stage.setScene(scene);
+    }
 
 
 }

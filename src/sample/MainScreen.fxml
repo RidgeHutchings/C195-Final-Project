@@ -49,14 +49,14 @@
       </TableView>
       <VBox alignment="CENTER" layoutX="79.0" layoutY="748.0" prefHeight="256.0" prefWidth="355.0" spacing="50.0" style="-fx-border-radius: 20; -fx-border-color: grey;" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="79.0" AnchorPane.rightAnchor="1486.0" AnchorPane.topAnchor="748.0">
          <children>
-            <Button mnemonicParsing="false" text="Add Customer" />
+            <Button fx:id="addCustomerButton" mnemonicParsing="false" onAction="#addCustomer" text="Add Customer" />
             <Button mnemonicParsing="false" text="Edit Customer" />
             <Button mnemonicParsing="false" onAction="#deleteCustomer" text="Delete Customer" />
          </children>
       </VBox>
       <VBox alignment="CENTER" layoutX="1454.0" layoutY="748.0" prefHeight="256.0" prefWidth="355.0" spacing="50.0" style="-fx-border-radius: 20; -fx-border-color: grey;" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="1454.0" AnchorPane.rightAnchor="111.0" AnchorPane.topAnchor="748.0">
          <children>
-            <Button mnemonicParsing="false" stylesheets="@../Style.css" text="Add Appointment" />
+            <Button fx:id="addAppointmentButton" mnemonicParsing="false" onAction="#addAppointmentButtonPressed" stylesheets="@../Style.css" text="Add Appointment" />
             <Button mnemonicParsing="false" text="Edit Appointment" />
             <Button mnemonicParsing="false" text="Delete Appointment" />
          </children>
